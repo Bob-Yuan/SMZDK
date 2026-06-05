@@ -13,27 +13,10 @@
             <span class="post-comments-count">&#128172; {{ post.comment_count }} 条评论</span>
         </div>
     </header>
-    <div class="post-detail-content">
-        {% if post.link %}
-        <div class="post-link-box">
-            <span class="link-icon">&#128279;</span>
-            <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="post-link">{{ post.link }}</a>
-        </div>
-        {% endif %}
-
-        {% if post.recommendation %}
-        <div class="post-section">
-            <h3 class="post-section-title">推荐语</h3>
-            <p class="post-recommendation">{{ post.recommendation }}</p>
-        </div>
-        {% endif %}
-
-        {% if post.summary %}
-        <div class="post-section">
-            <h3 class="post-section-title">内容梗概</h3>
-            <p class="post-summary">{{ post.summary }}</p>
-        </div>
-        {% endif %}
+    <div class="post-detail-content">{% if post.link %}
+        <div class="post-link-box"><span class="link-icon">&#128279;</span><a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="post-link">{{ post.link }}</a></div>{% endif %}{% if post.recommendation %}
+        <div class="post-section"><h3 class="post-section-title">推荐语</h3><p class="post-recommendation">{{ post.recommendation }}</p></div>{% endif %}{% if post.summary %}
+        <div class="post-section"><h3 class="post-section-title">内容梗概</h3><p class="post-summary">{{ post.summary }}</p></div>{% endif %}
     </div>
 </article>
 

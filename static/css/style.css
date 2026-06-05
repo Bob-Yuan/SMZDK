@@ -407,7 +407,6 @@ a:hover {
     padding: 16px 32px;
     font-size: 1rem;
     line-height: 1.85;
-    white-space: pre-wrap;
     word-wrap: break-word;
 }
 
@@ -678,14 +677,12 @@ a:hover {
     font-size: 0.95rem;
     line-height: 1.7;
     color: var(--color-text-light);
-    white-space: pre-wrap;
 }
 
 .post-summary {
     font-size: 0.95rem;
     line-height: 1.8;
     color: var(--color-text);
-    white-space: pre-wrap;
     background: var(--color-bg);
     padding: 16px 20px;
     border-radius: var(--radius);
