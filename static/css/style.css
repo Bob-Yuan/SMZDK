@@ -399,12 +399,12 @@ a:hover {
     gap: 18px;
     font-size: 0.9rem;
     color: var(--color-text-muted);
-    padding-bottom: 20px;
+    padding-bottom: 12px;
     border-bottom: 1px solid var(--color-border);
 }
 
 .post-detail-content {
-    padding: 28px 32px;
+    padding: 16px 32px;
     font-size: 1rem;
     line-height: 1.85;
     white-space: pre-wrap;
@@ -635,7 +635,7 @@ a:hover {
     background: var(--color-bg);
     border-radius: var(--radius);
     padding: 8px 14px;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
     border: 1px solid var(--color-border);
     overflow: hidden;
 }
@@ -660,7 +660,7 @@ a:hover {
 
 /* ===== Post Section ===== */
 .post-section {
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 }
 
 .post-section-title {
