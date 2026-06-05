@@ -27,9 +27,13 @@
                     <span class="post-time">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
                 </div>
                 <h2 class="post-card-title">
-                    <a href="{{ url_for('posts.detail', post_id=post.id) }}">{{ post.title }}</a>
+                    <a href="{{ url_for('posts.detail', post_id=post.id) }}">{{ post.title or post.link }}</a>
                 </h2>
-                <p class="post-card-excerpt">{{ post.content[:120] }}{% if post.content|length > 120 %}...{% endif %}</p>
+                {% if post.summary %}
+                <p class="post-card-excerpt">{{ post.summary[:120] }}{% if post.summary|length > 120 %}...{% endif %}</p>
+                {% elif post.recommendation %}
+                <p class="post-card-excerpt">{{ post.recommendation[:120] }}{% if post.recommendation|length > 120 %}...{% endif %}</p>
+                {% endif %}
                 <div class="post-card-footer">
                     <span class="post-author">&#9998; {{ post.author.username }}</span>
                     <span class="post-comments">&#128172; {{ post.comment_count }} 条评论</span>
@@ -40,9 +44,9 @@
     {% else %}
         <div class="empty-state">
             <div class="empty-icon">&#128220;</div>
-            <p>暂无帖子，来发第一帖吧！</p>
+            <p>暂无分享，来分享第一个链接吧！</p>
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('posts.new_post') }}" class="btn btn-primary">发帖</a>
+                <a href="{{ url_for('posts.new_post') }}" class="btn btn-primary">分享链接</a>
             {% endif %}
         </div>
     {% endif %}

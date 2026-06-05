@@ -21,7 +21,7 @@
             </form>
             <div class="nav-actions">
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('posts.new_post') }}" class="btn btn-primary btn-sm">发帖</a>
+                    <a href="{{ url_for('posts.new_post') }}" class="btn btn-primary btn-sm">分享</a>
                     <span class="nav-user">{{ current_user.username }}</span>
                     <form action="{{ url_for('auth.logout') }}" method="POST" class="inline-form">
                         <button type="submit" class="btn btn-outline btn-sm">退出</button>
