@@ -16,7 +16,7 @@
     <div class="post-detail-content">
         {% if post.link %}
         <div class="post-link-box">
-            <span class="link-label">分享链接</span>
+            <span class="link-icon">&#128279;</span>
             <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="post-link">{{ post.link }}</a>
         </div>
         {% endif %}
@@ -30,7 +30,7 @@
 
         {% if post.summary %}
         <div class="post-section">
-            <h3 class="post-section-title">内容介绍</h3>
+            <h3 class="post-section-title">内容梗概</h3>
             <p class="post-summary">{{ post.summary }}</p>
         </div>
         {% endif %}

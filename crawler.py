@@ -16,7 +16,7 @@ REQUEST_TIMEOUT = 15
 
 
 def fetch_article(url):
-    """抓取文章链接，返回标题和内容摘要"""
+    """抓取文章链接，返回标题和内容梗概"""
     try:
         resp = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT,
                             allow_redirects=True)
@@ -40,13 +40,13 @@ def fetch_article(url):
     elif soup.find('title'):
         title = soup.find('title').get_text(strip=True)
 
-    # 尝试从 meta description 获取摘要
+    # 优先从 meta description 获取摘要
     meta_desc = ''
     meta_tag = soup.find('meta', attrs={'name': 'description'})
     if meta_tag and meta_tag.get('content'):
         meta_desc = meta_tag['content'].strip()
 
-    # 提取正文内容
+    # 提取正文段落
     paragraphs = []
 
     # 优先查找 article 标签
@@ -64,34 +64,66 @@ def fetch_article(url):
             if text and len(text) > 10:
                 paragraphs.append(text)
 
-    # 生成摘要
+    # 生成梗概
     if paragraphs:
-        content_text = '\n'.join(paragraphs[:10])
-        summary = _summarize(content_text, max_length=500)
+        summary = _summarize(paragraphs, max_length=200)
     elif meta_desc:
-        summary = meta_desc
+        summary = _truncate(meta_desc, 200)
     else:
-        summary = '无法自动获取内容摘要。'
+        summary = '无法自动获取内容梗概。'
 
     return title, summary
 
 
-def _summarize(text, max_length=500):
-    """简单摘要：提取前N个字符，按句子截断"""
-    # 清理多余空白
-    text = re.sub(r'\s+', ' ', text).strip()
+def _summarize(paragraphs, max_length=200):
+    """从段落列表中提取关键句，生成精炼梗概"""
+    # 筛选有实质内容的句子
+    sentences = []
+    for p in paragraphs:
+        # 按中英文句号、问号、感叹号分句
+        parts = re.split(r'[。！？；!?;]', p)
+        for s in parts:
+            s = s.strip()
+            # 过滤太短的句子和导航/版权等无关内容
+            if s and len(s) > 8 and not re.match(r'^(版权|声明|转载|关注|扫码|下载|点击|阅读原文)', s):
+                sentences.append(s)
 
+    if not sentences:
+        # 退而求其次，取第一段截断
+        if paragraphs:
+            return _truncate(paragraphs[0], max_length)
+        return ''
+
+    # 选取关键句：首句必选，然后按位置权重选取
+    selected = [sentences[0]]
+    total_len = len(sentences[0])
+
+    # 从剩余句子中按间隔选取，直到接近 max_length
+    step = max(1, len(sentences) // 5)  # 均匀采样
+    for i in range(step, len(sentences), step):
+        s = sentences[i]
+        if total_len + len(s) + 1 > max_length:
+            break
+        selected.append(s)
+        total_len += len(s) + 1
+
+    result = '。'.join(selected)
+    if not result.endswith(('。', '！', '？', '.', '!', '?')):
+        result += '…'
+    return result
+
+
+def _truncate(text, max_length=200):
+    """截断文本到指定长度，按句子断开"""
+    text = re.sub(r'\s+', ' ', text).strip()
     if len(text) <= max_length:
         return text
-
-    # 在 max_length 附近找句号断句
     truncated = text[:max_length]
     for sep in ['。', '！', '？', '.', '！', '?', '；', ';']:
         last_pos = truncated.rfind(sep)
         if last_pos > max_length * 0.5:
-            return text[:last_pos + 1] + '...'
-
-    return truncated + '...'
+            return text[:last_pos + 1] + '…'
+    return truncated + '…'
 
 
 def fetch_link_info(url, category):
