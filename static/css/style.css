@@ -773,11 +773,10 @@ a:hover {
     }
 
     .nav-actions {
-        display: none;
-        flex-direction: column;
-        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 8px;
-        padding: 10px 0;
     }
 
     .nav-actions.show {
@@ -785,8 +784,7 @@ a:hover {
     }
 
     .nav-toggle {
-        display: block;
-        margin-left: auto;
+        display: none;
     }
 
     .post-detail-header {
