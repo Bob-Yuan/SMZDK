@@ -1,27 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}发帖 - 什么值得看{% endblock %}
+{% block title %}分享链接 - 什么值得看{% endblock %}
 
 {% block content %}
 <div class="form-page">
     <div class="form-card">
-        <h1 class="form-title">发布新帖</h1>
+        <h1 class="form-title">分享链接</h1>
         <form action="{{ url_for('posts.new_post') }}" method="POST">
             <div class="form-group">
-                <label for="title">标题</label>
-                <input type="text" id="title" name="title" placeholder="请输入帖子标题" required maxlength="200">
+                <label for="link">链接</label>
+                <input type="url" id="link" name="link" placeholder="粘贴文章、视频或图片的链接" required>
             </div>
             <div class="form-group">
-                <label for="category">分类</label>
-                <select id="category" name="category">
+                <label>分类</label>
+                <div class="radio-group">
                     {% for cat in categories %}
-                    <option value="{{ cat }}">{{ cat }}</option>
+                    <label class="radio-label">
+                        <input type="radio" name="category" value="{{ cat }}" {% if cat == '文章' %}checked{% endif %}>
+                        <span class="radio-text">{{ cat }}</span>
+                    </label>
                     {% endfor %}
-                </select>
+                </div>
             </div>
             <div class="form-group">
-                <label for="content">内容</label>
-                <textarea id="content" name="content" rows="12" placeholder="请输入帖子内容..." required></textarea>
+                <label for="recommendation">推荐语</label>
+                <textarea id="recommendation" name="recommendation" rows="4" placeholder="写几句推荐理由，让大家知道为什么值得看..."></textarea>
             </div>
             <div class="form-actions">
                 <a href="{{ url_for('posts.index') }}" class="btn btn-outline">取消</a>

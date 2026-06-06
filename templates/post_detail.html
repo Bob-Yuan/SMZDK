@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }} - 什么值得看{% endblock %}
+{% block title %}{{ post.title or post.link }} - 什么值得看{% endblock %}
 
 {% block content %}
 <article class="post-detail">
     <header class="post-detail-header">
         <span class="post-category">{{ post.category }}</span>
-        <h1 class="post-detail-title">{{ post.title }}</h1>
+        <h1 class="post-detail-title">{{ post.title or post.link }}</h1>
         <div class="post-detail-meta">
             <span class="post-author">&#9998; {{ post.author.username }}</span>
             <span class="post-time">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
             <span class="post-comments-count">&#128172; {{ post.comment_count }} 条评论</span>
         </div>
     </header>
-    <div class="post-detail-content">
-        {{ post.content }}
+    <div class="post-detail-content">{% if post.link %}
+        <div class="post-link-box"><span class="link-icon">&#128279;</span><a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="post-link">{{ post.link }}</a></div>{% endif %}{% if post.recommendation %}
+        <div class="post-section"><h3 class="post-section-title">推荐语</h3><p class="post-recommendation">{{ post.recommendation }}</p></div>{% endif %}{% if post.summary %}
+        <div class="post-section"><h3 class="post-section-title">内容梗概</h3><p class="post-summary">{{ post.summary }}</p></div>{% endif %}
     </div>
 </article>
 
